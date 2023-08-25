@@ -71,7 +71,7 @@ Food and predation.
 
 What causes these large period oscillators to emerge?
 
-What causes the robustness and self-repairment with some parameters? (Set survival to like 1,2,3,8 and lifetime to 2 and wait, lower the mutation rate if it didn't work)
+What causes the robustness and self-repairment with some parameters? (To test this set the survival rule to like (neighbors < 1 || neighbors > 8 ) and lifetime to 2 and wait, lower the mutation rate if it didn't work. Disrupt the oscillator a bit by drawing and it has a high chance of repairing.)
 
 Why do spaceships not emerge, is this inherent to something in the simulation?
 
