@@ -14,7 +14,8 @@ I recommend disabling mutation a bit before it seems good.
 # **How it works**
 
 This evolutionary cellular automata works by randomly selecting one of the parent cells that made the cell, and the offspring inherits its rules with a chance of mutating it by 1 value.
-The colors is determined after the birth rules, the lighter it is the higher the rule value is. (I don't know exactly how it works)
+
+The colors is determined after the birth rules, the lighter it is the higher the rule value is. (I don't know exactly how it works.)
 
 
 # **Bugs and other issues** 
@@ -49,4 +50,4 @@ Multiple states, larger than life, non-totalistic rules.
 
 Non-deterministic rules
 
-Food and predation?
+Food and predation
