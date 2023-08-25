@@ -183,7 +183,7 @@ let isMutationEnabled = true;
             }
           } else if (
             currentState === true &&
-            (neighbors < 2 || neighbors > 3)
+            (neighbors < 1 || neighbors > 8)
           ) {
             newGrid[i][j].alive = false;
             newGrid[i][j].parents = [];
