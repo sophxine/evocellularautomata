@@ -46,7 +46,7 @@ UI
 
 Pause and resume, restart, next step, save and load cell configuration and parameters.
 
-Multiple states, larger than life, non-totalistic rules.
+Non-totalistic rules, multiple states, larger than life, non-totalistic rules.
 
 Non-deterministic rules
 
