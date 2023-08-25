@@ -8,7 +8,7 @@ You can change mutationRate, reproduceCount(birth rules) and survival rules(at l
 
 You can also draw but it draws the last created cell.
 
-I recommend disabling mutation a bit before it seems good.
+I recommend disabling mutation a bit before it seems good because cells compete a bit after you disable it before mostly stabelizing.
 
 
 # **How it works**
