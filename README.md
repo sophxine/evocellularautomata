@@ -2,7 +2,7 @@
 
 Maxlifetime is set to a high number to disable it because the buttons to toggle mutation breaks it, also i don't know if it's a good feature in this case.
 
-The current default settings are cells arranged as a glider in B23/23 and mutationRate: 0.1.
+The current default settings are cells arranged as a glider in B23/S23 and mutationRate: 0.1.
 
 You can change mutationRate, reproduceCount(birth rules) and survival rules(at line 189), and mutationRate.
 
@@ -71,8 +71,8 @@ Food and predation.
 
 What causes these large period oscillators to emerge?
 
-What causes the robustness and self-repairment with some parameters? (To test this set the survival rule to something like neighbors < 1 || neighbors > 8 ), the lifetime to 2, reproductionCount to something like [1,2,8] and mutationRate to 0.01 and wait, lower the mutation rate if it didn't work, if it's too slow make it higher. When the cells are in separete patterns that look like oscillators disrupt the oscillator a bit by drawing, if it worked it should have a high chance of repairing.)
-
 Why do spaceships not emerge, is this inherent to something in the simulation?
 
 Why do large seemily non-oscillating structures that have a stable size form?
+
+What causes the robustness and self-repairment with some parameters? (To test this set the survival rule to something like neighbors < 1 || neighbors > 8 ), the lifetime to 2, reproductionCount to something like [1,2,8] and mutationRate to 0.01 and wait, lower the mutation rate if it didn't work, if it's too slow make it higher. When the cells are in separete patterns that look like oscillators disrupt the oscillator a bit by drawing, if it worked it should have a high chance of repairing.)
