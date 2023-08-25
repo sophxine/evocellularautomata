@@ -26,6 +26,8 @@ Can't mutate survive survival rules, rule value is only reproduceCount.
 
 Drawing draws random cells instead of the initial rule.
 
+When there is a few cells rules quickly change in the top rules.
+
 Spaceships don't emerge.
 
 
