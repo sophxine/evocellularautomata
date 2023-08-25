@@ -1,7 +1,323 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>Evo Cellular Automata Demo</title>
+  <style>
+    canvas {
+      border: 1px solid #999;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <h1>Evo Cellular Automata Demo</h1>
+  <canvas id="gameCanvas"></canvas>
+  <div id="ruleDisplay">
+    <h2>Top 3 Rules</h2>
+    <ol id="topRules"></ol>
+    <button id="disableMutation">Disable Mutation</button>
+    <button id="enableMutation">Enable Mutation</button>
+  
+    
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', ()  => {
+    // Configuration
+    const canvasSize = { width: 600, height: 400 };
+    const cellSize = 4; // Adjust the cellsize uhere
+    const rows = Math.floor(canvasSize.height / cellSize);
+    const cols = Math.floor(canvasSize.width / cellSize);
+    const reproductionCount = [2,3]; // Number of neighbors for cell reproduction
+    const mutationRate = 0.1; // Probability of mutation occurring for each cel
+    const maxLifetime = 9999999999; // Maximum lifetime before cell death
+   
+
+    // Create the game grid
+    let grid = [];
+    for (let i = 0; i < rows; i++) {
+      grid[i] = new Array(cols);
+      for (let j = 0; j < cols; j++) {
+        const rule = reproductionCount.slice();
+        grid[i][j] = { alive: false, rule, parents: [], lifetime: 0 };
+      }
+    }
+
+    // Add initial live cells
+    grid[2][3].alive = true;
+    grid[3][4].alive = true;
+    grid[4][2].alive = true;
+    grid[4][3].alive = true;
+    grid[4][4].alive = true;
+
+
+    let isDrawing = false;
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.addEventListener('mousedown', () => {
+      isDrawing = true;
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (isDrawing) {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const col = Math.floor(x / cellSize);
+        const row = Math.floor(y / cellSize);
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+          grid[row][col].alive = true;
+        }
+      }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      isDrawing = false;
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      isDrawing = true;
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      const col = Math.floor(x / cellSize);
+      const row = Math.floor(y / cellSize);
+      if (row >= 0 && row < rows && col >= 0 && col < cols) {
+        grid[row][col].alive = true;
+      }
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      if (isDrawing) {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        const col = Math.floor(x / cellSize);
+        const row = Math.floor(y / cellSize);
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+          grid[row][col].alive = true;
+        }
+      }
+    });
+
+    canvas.addEventListener('touchend', () => {
+      isDrawing = false;
+    });
+
+   
+    
+    canvas.width = canvasSize.width;
+    canvas.height = canvasSize.height;
+
+    const ruleDisplay = document.getElementById('ruleDisplay');
+    const topRulesList = document.getElementById('topRules');
+
+    function drawGrid() {
+      const imageData = ctx.getImageData(0, 0, canvasSize.width, canvasSize.height);
+      const data = imageData.data;
+
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+          const x = j * cellSize;
+          const y = i * cellSize;
+
+          const alive = grid[i][j].alive;
+          const ruleValue = grid[i][j].rule[0];
+
+          for (let k = 0; k < cellSize; k++) {
+            for (let l = 0; l < cellSize; l++) {
+              const pixelX = x + k;
+              const pixelY = y + l;
+
+              const index = (pixelY * canvasSize.width + pixelX) * 4;
+
+              if (alive) {
+                data[index] = ruleValue * 10;   // Red component
+                data[index + 1] = ruleValue * 50; // Green component
+                data[index + 2] = ruleValue * 2; // Blue component
+                data[index + 3] = 255;           // Alpha component (opaque)
+              } else {
+                data[index] = 255; // Red component (white)
+                data[index + 1] = 255; // Green component (white)
+                data[index + 2] = 255; // Blue component (white)
+                data[index + 3] = 255; // Alpha component (opaque)
+              }
+            }
+          }
+        }
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+    }
+let isMutationEnabled = true;
+
+    const toggleMutationButton = document.getElementById('disableMutation');
+    toggleMutationButton.addEventListener('click', () => {
+      isMutationEnabled = false;
+    });
+ const enableMutationButton = document.getElementById('enableMutation');
+    enableMutationButton.addEventListener('click', () => {
+      isMutationEnabled = true;
+    });
+    function updateGrid() {
+      const newGrid = JSON.parse(JSON.stringify(grid));
+
+      let ruleCounts = {};
+
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+          const neighbors = countNeighbors(i, j);
+          const currentState = grid[i][j].alive;
+
+          if (
+            currentState === false &&
+            grid[i][j].rule.includes(neighbors) &&
+            isValidRule(grid[i][j].rule)
+          ) {
+            newGrid[i][j].alive = true;
+            newGrid[i][j].parents = getLivingNeighbors(i, j);
+            newGrid[i][j].lifetime = 0;
+
+            if (Math.random() < mutationRate) {
+              mutateRule(newGrid[i][j]);
+            }
+          } else if (
+            currentState === true &&
+            (neighbors < 2 || neighbors > 3)
+          ) {
+            newGrid[i][j].alive = false;
+            newGrid[i][j].parents = [];
+          } else if (currentState === true) {
+            newGrid[i][j].lifetime++;
+
+            if (isMutationEnabled && newGrid[i][j].lifetime >= maxLifetime) {
+              newGrid[i][j].alive = false;
+              newGrid[i][j].parents = [];
+            }
+          }
+
+          // Count rule occurrences
+          const ruleKey = JSON.stringify(grid[i][j].rule);
+          if (currentState) {
+            if (ruleCounts[ruleKey]) {
+              ruleCounts[ruleKey]++;
+            } else {
+              ruleCounts[ruleKey] = 1;
+            }
+          }
+        }
+      }
+
+      grid = newGrid;
+
+      // Find the top 3 most common rules
+      const sortedRules = Object.entries(ruleCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
+
+      topRulesList.innerHTML = ''; // Clear the list
+
+      for (const [rule, count] of sortedRules) {
+        const ruleItem = document.createElement('li');
+        ruleItem.textContent = `Rule ${rule}: ${count} cells`;
+        topRulesList.appendChild(ruleItem);
+      }
+    }
+
+    function countNeighbors(row, col) {
+      let count = 0;
+
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          if (i === 0 && j === 0) continue;
+
+          const newRow = (row + i + rows) % rows;
+          const newCol = (col + j + cols) % cols;
+
+          count += grid[newRow][newCol].alive ? 1 : 0;
+        }
+      }
+
+      return count;
+    }
+
+    function getLivingNeighbors(row, col) {
+      let livingNeighbors = [];
+
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          if (i === 0 && j === 0) continue;
+
+          const newRow = (row + i + rows) % rows;
+          const newCol = (col + j + cols) % cols;
+
+          if (grid[newRow][newCol].alive) {
+            livingNeighbors.push({ row: newRow, col: newCol });
+          }
+        }
+      }
+
+      return livingNeighbors;
+    }
+
+    function isValidRule(rule) {
+      return (
+        rule.length > 0 &&
+        rule.every((value) => value >= 0 && value <= 8 && !rule.includes(9))
+      );
+    }
+
+    function mutateRule(cell) {
+      if (cell.parents.length > 0 && isMutationEnabled==true) {
+        const randomParent =
+          cell.parents[Math.floor(Math.random() * cell.parents.length)];
+        const rule = cell.rule.slice();
+
+        // Mutate rule by changing one value by one or adding/removing a value
+        const mutationType = Math.random();
+
+        if (mutationType < 0.4) {
+          // Change one value by one
+          const randomIndex = Math.floor(Math.random() * rule.length);
+          rule[randomIndex] += 1;
+        } else if (mutationType < 0.8) {
+          // Add a value (skip if it results in null)
+          const randomIndex = Math.floor(Math.random() * rule.length);
+          const newValue = rule[randomIndex] + 1;
+          if (newValue !== null && newValue <= 8) {
+            rule.splice(randomIndex, 0, newValue);
+          }
+        } else {
+          // Remove a value (skip if rule length is 1)
+          if (rule.length > 1) {
+            const randomIndex = Math.floor(Math.random() * rule.length);
+            rule.splice(randomIndex, 1);
+          }
+        }
+
+        // Remove any invalid rule values (less than 0 or duplicate values)
+        cell.rule = rule.filter((value, index, self) => {
+          return value >= 0 && value <= 8 && !self.includes(9);
+        });
+
+        // Set a default rule if all values are removed
+        if (cell.rule.length === 0) {
+          cell.rule = reproductionCount.slice();
+        }
+      }
+    }
+
+    function gameLoop() {
+      drawGrid();
+      updateGrid();
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+    });
+  </script>
 </body>
 </html>
