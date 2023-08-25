@@ -75,6 +75,6 @@ What causes these large period oscillators to emerge?
 
 Why do spaceships not emerge, is this inherent to something in the simulation?
 
-Why do large seemily non-oscillating structures that have a stable size form when disabling the mutation early?
+Why do large seemily non-oscillating(I think) structures that have a stable size form when disabling the mutation early?
 
 What causes the robustness and self-repairment with some parameters? (To test this set the survival rule to something like neighbors < 1 || neighbors > 8 ), the lifetime to 2, reproductionCount to something like [1,2,8] and mutationRate to 0.01 and wait, lower the mutation rate if it didn't work, if it's too slow make it higher. When the cells are in separete patterns that look like oscillators disrupt the oscillator a bit by drawing, if it worked it should have a high chance of repairing. You can also do this with the default settings but this worked best for me when I tried.)
