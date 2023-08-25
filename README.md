@@ -1,6 +1,6 @@
 This evolutionary cellular automata works by randomly selecting one of the parent cells that made the cell, and transfering its rules to the cell with a chance of mutating it by 1 value. 
 
-**Instructions**
+# **Instructions**
 
 Maxlifetime is set to a high number to disable it because the buttons to toggle mutation breaks it, also i don't know if it's a good feature in this case.
 
