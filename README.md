@@ -14,7 +14,7 @@ I recommend disabling mutation a bit before it seems good.
 # **How it works**
 
 This evolutionary cellular automata works by randomly selecting one of the parent cells that made the cell, and transfering its rules to the cell with a chance of mutating it by 1 value. 
-The colors is determined after the birth rules, the lighter it is the 
+The colors is determined after the birth rules, the lighter it is the higher the rule value is.
 
 
 # **Bugs and other issues** 
