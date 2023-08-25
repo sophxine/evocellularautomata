@@ -1,22 +1,22 @@
 This evolutionary cellular automata works by randomly selecting one of the parent cells that made the cell, and transfering its rules to the cell with a chance of mutating it by 1 value. 
 
-#Instructions
+**Instructions**
 Maxlifetime is set to a high number to disable it because the buttons to toggle mutation breaks it, also i don't know if it's a good feature in this case.
 The current default settings are cells arranged as a glider in B23/23 and mutationRate: 0.1
 You can change mutationrate, reproduction(birth) and survival rules(at line 189), and mutationRate.
 I recommend disabling mutation a bit before it seems good.
 
-#Bugs and things to add: 
+**Bugs and other issues** 
 Disabling mutation disables the lifetime as well. Setting the lifetime to -1 really breaks it.
 Can't mutate survive survival rules, rule value is only reproduceCount. 
 Drawing draws random cells instead of the initial rule 
-Pause while drawing 
 Spaceships don't emerge 
+
+
+
+**More features to possibly add**
 Add a check to see if mutation is on
-
-
-
-More features to possibly add:
+Pause while drawing 
 Add additional drawing algorithm that can be turned on that draws in the most populous rule.
 Toggle to make still lives not die from lifetime.
 Options to start grid with random cells and rules.
