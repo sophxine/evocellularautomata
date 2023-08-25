@@ -8,6 +8,8 @@ The current default settings are cells arranged as a glider in B23/23 and mutati
 
 You can change mutationrate, reproduction(birth) and survival rules(at line 189), and mutationRate.
 
+You can also draw but it draws the last created cell.
+
 I recommend disabling mutation a bit before it seems good.
 
 
