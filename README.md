@@ -13,7 +13,7 @@ You can also draw but it draws the last created cell.
 I recommend disabling mutation a bit before it seems good.
 
 
-**Bugs and other issues** 
+# **Bugs and other issues** 
 
 Disabling mutation disables the lifetime as well. Setting the lifetime to -1 really breaks it.
 
@@ -25,7 +25,7 @@ Spaceships don't emerge
 
 
 
-**More features to possibly add**
+# **More features to possibly add**
 
 Add a check to see if mutation is on
 
