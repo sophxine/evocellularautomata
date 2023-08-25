@@ -32,7 +32,21 @@ Spaceships don't emerge.
 
 # **More features to possibly add**
 
-Add a check to see if mutation is on.
+A check to see if mutation is on.
+
+A way to check the cells rule.
+
+Random age.
+
+Add mutation type where it can mutate to a random rule in addition to changing by 1 value.
+
+Mutating groups of cells instead of each cell individually.
+
+Generation count.
+
+Diversity(amount of rules).
+
+Total population.
 
 Pause while drawing.
 
@@ -48,6 +62,17 @@ Pause and resume, restart, next step, save and load cell configuration and param
 
 Non-totalistic rules, multiple states, larger than life, non-totalistic rules.
 
-Non-deterministic rules
+Non-deterministic rules.
 
-Food and predation
+Food and predation.
+
+
+# **Open-ended questions**
+
+What causes these large period oscillators to emerge?
+
+What causes the robustness and self-repairment with some parameters? (Set survival to like 1,2,3,8 and lifetime to 2 and wait, lower the mutation rate if it didn't work)
+
+Why do spaceships not emerge, is this inherent to something in the simulation?
+
+Why do large seemily non-oscillating structures that have a stable size form?
