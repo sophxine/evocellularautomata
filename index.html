@@ -42,22 +42,24 @@
     const reproductionCount = [2,3]; // Number of neighbors for cell reproduction
     const mutationRate = 0.1; // Probability of mutation occurring for each cel
     const maxLifetime = 9999999999; // Maximum lifetime before cell death
-    // Save Button and Load Input elements
-const saveButton = document.getElementById('saveButton');
-const loadInput = document.getElementById('loadInput');
+    const generations = 0;
+      
+    const generationCountElement = document.getElementById('generationCount');
+    const saveButton = document.getElementById('saveButton');
+    const loadInput = document.getElementById('loadInput');
 
-// Save Button Click Event
-saveButton.addEventListener('click', () => {
-  const exportData = JSON.stringify(grid);
-  const blob = new Blob([exportData], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
+    // Save Button Click Event
+    saveButton.addEventListener('click', () => {
+    const exportData = JSON.stringify(grid);
+    const blob = new Blob([exportData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
   
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'cellular_automaton_state.json';
-  a.click();
-  URL.revokeObjectURL(url);
-});
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'cellular_automaton_state.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
 
 // Load Input Change Event
 loadInput.addEventListener('change', (event) => {
@@ -76,7 +78,6 @@ loadInput.addEventListener('change', (event) => {
     reader.readAsText(file);
   }
 });
-
 
     // Create the game grid
     let grid = [];
@@ -426,6 +427,8 @@ function gameLoop() {
   if (!isPaused) {
     drawGrid();
     updateGrid();
+    generations++; // Increment generations count
+    generationCountElement.textContent = generations; // Update display
     requestAnimationFrame(gameLoop);
   }
 }
