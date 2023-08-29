@@ -8,6 +8,10 @@
 <body>
   <h1>Evo Cellular Automata Demo</h1>
   <canvas id="gameCanvas"></canvas>
+  <div id="ruleDiversity">
+  <h2>Rule Count</h2>
+  <p id="diversityCount">0</p>
+</div>
   <div id="ruleDisplay">
     <h2>Top 3 Rules</h2>
     <ol id="topRules"></ol>
@@ -209,6 +213,14 @@ let isMutationEnabled = true;
       }
 
       grid = newGrid;
+      // Calculate the number of unique rules (diversity)
+     const uniqueRules = new Set(Object.keys(ruleCounts));
+     const diversityCount = uniqueRules.size;
+  
+     // Update the displayed diversity count
+     const diversityCountElement = document.getElementById('diversityCount');
+     diversityCountElement.textContent = diversityCount;
+  
 
       // Find the top 3 most common rules
       const sortedRules = Object.entries(ruleCounts)
