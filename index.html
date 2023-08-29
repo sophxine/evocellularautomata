@@ -67,7 +67,10 @@ loadInput.addEventListener('change', (event) => {
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      const importedData = JSON.parse(e.target.result);
+      isPaused = true;
+	resumeButton.disabled = false;
+      pauseButton.disabled = true;
+	const importedData = JSON.parse(e.target.result);
       if (Array.isArray(importedData) && importedData.length === rows && importedData[0].length === cols) {
         grid = importedData;
         loadInput.value = ''; // Clear the input value after successful load
@@ -427,8 +430,8 @@ resumeButton.addEventListener('click', () => {
 
 // Update the game loop to check for isPaused
 function gameLoop() {
-  if (!isPaused) {
 	drawGrid();
+  if (!isPaused) {
 	  updateGrid();
     requestAnimationFrame(gameLoop);
   }
