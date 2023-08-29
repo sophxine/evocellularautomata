@@ -48,8 +48,6 @@ Mutating groups of cells instead of each cell individually.
 
 Generation count.
 
-Diversity(amount of rules).
-
 Total population.
 
 Pause while drawing.
