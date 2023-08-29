@@ -60,7 +60,7 @@ Options to start grid with random cells and rules.
 
 UI
 
-Pause and resume, restart, next step
+Next step button
 
 Non-totalistic rules, multiple states, larger than life, non-totalistic rules.
 
