@@ -20,9 +20,11 @@
   <div id="ruleDisplay">
     <h2>Top 3 Rules</h2>
     <ol id="topRules"></ol>
+    <button id="randomizeButton">Randomize</button>
     <button id="disableMutation">Disable Mutation</button>
     <button id="enableMutation">Enable Mutation</button>
-    <button id="toggleStates">Toggle Multiple States</button>
+    <button id="pauseButton">Pause</button>
+    <button id="resumeButton" disabled>Resume</button>
     <button id="saveButton">Save</button>
     <input type="file" id="loadInput" accept=".json">
 
@@ -66,6 +68,7 @@ loadInput.addEventListener('change', (event) => {
       const importedData = JSON.parse(e.target.result);
       if (Array.isArray(importedData) && importedData.length === rows && importedData[0].length === cols) {
         grid = importedData;
+        loadInput.value = ''; // Clear the input value after successful load
       } else {
         alert('Invalid data format. Please select a valid saved state.');
       }
@@ -91,6 +94,42 @@ loadInput.addEventListener('change', (event) => {
     grid[4][2].alive = true;
     grid[4][3].alive = true;
     grid[4][4].alive = true;
+    
+
+
+const randomizeButton = document.getElementById('randomizeButton');
+
+// Randomize Button Click Event
+randomizeButton.addEventListener('click', () => {
+  randomizeGrid();
+});
+
+// Function to randomize the grid with valid rules
+function randomizeGrid() {
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      grid[i][j].alive = Math.random() < 0.5; // Random cell alive state
+      
+      // Generate a random valid rule
+      const randomRule = [];
+      do {
+        randomRule.length = 0; // Clear the array
+        for (let k = 0; k < 3; k++) { // Generate a rule with 3 neighbors
+          let randomNeighbor = Math.floor(Math.random() * 8)+1; // 1 to 7 
+          while (randomRule.includes(randomNeighbor)) {
+            randomNeighbor = Math.floor(Math.random() * 8)+1; // Ensure no duplicates
+          }
+          randomRule.push(randomNeighbor);
+        }
+      } while (!isValidRule(randomRule)); // Generate until a valid rule is found
+      
+      grid[i][j].rule = randomRule;
+      grid[i][j].parents = [];
+      grid[i][j].lifetime = 0;
+    }
+  }
+}
+
 
 
     let isDrawing = false;
@@ -362,11 +401,35 @@ let isMutationEnabled = true;
       }
     }
 
-    function gameLoop() {
-      drawGrid();
-      updateGrid();
-      requestAnimationFrame(gameLoop);
-    }
+const pauseButton = document.getElementById('pauseButton');
+const resumeButton = document.getElementById('resumeButton');
+
+let isPaused = false;
+
+// Pause Button Click Event
+pauseButton.addEventListener('click', () => {
+  isPaused = true;
+  pauseButton.disabled = true;
+  resumeButton.disabled = false;
+});
+
+// Resume Button Click Event
+resumeButton.addEventListener('click', () => {
+  isPaused = false;
+  pauseButton.disabled = false;
+  resumeButton.disabled = true;
+  requestAnimationFrame(gameLoop);
+});
+
+// Update the game loop to check for isPaused
+function gameLoop() {
+  if (!isPaused) {
+    drawGrid();
+    updateGrid();
+    requestAnimationFrame(gameLoop);
+  }
+}
+
 
     gameLoop();
     });
