@@ -11,10 +11,7 @@
 <body>
   <h1>Evo Cellular Automata Demo</h1>
   <canvas id="gameCanvas"></canvas>
-<div id="generationDisplay">
-  <h2>Generations</h2>
-  <p id="generationCount">0</p>
-</div>
+
 <div id="ruleDiversity">
   <h2>Rule Diversity</h2>
   <p id="diversityCount">0</p>
@@ -405,10 +402,13 @@ let isMutationEnabled = true;
       }
     }
 
+
+
+let isPaused = false;
 const pauseButton = document.getElementById('pauseButton');
 const resumeButton = document.getElementById('resumeButton');
 
-let isPaused = false;
+
 
 // Pause Button Click Event
 pauseButton.addEventListener('click', () => {
@@ -428,10 +428,8 @@ resumeButton.addEventListener('click', () => {
 // Update the game loop to check for isPaused
 function gameLoop() {
   if (!isPaused) {
-    drawGrid();
-    updateGrid();
-    generations++; // Increment generations count
-    generationCountElement.textContent = generations; // Update display
+	drawGrid();
+	  updateGrid();
     requestAnimationFrame(gameLoop);
   }
 }
