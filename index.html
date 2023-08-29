@@ -11,6 +11,7 @@
 <body>
   <h1>Evo Cellular Automata Demo</h1>
   <canvas id="gameCanvas"></canvas>
+
 <div id="ruleDiversity">
   <h2>Rule Diversity</h2>
   <p id="diversityCount">0</p>
@@ -22,6 +23,9 @@
     <button id="disableMutation">Disable Mutation</button>
     <button id="enableMutation">Enable Mutation</button>
     <button id="toggleStates">Toggle Multiple States</button>
+    <button id="saveButton">Save</button>
+    <input type="file" id="loadInput" accept=".json">
+
 
 
     
@@ -36,7 +40,40 @@
     const reproductionCount = [2,3]; // Number of neighbors for cell reproduction
     const mutationRate = 0.1; // Probability of mutation occurring for each cel
     const maxLifetime = 9999999999; // Maximum lifetime before cell death
-   
+    // Save Button and Load Input elements
+const saveButton = document.getElementById('saveButton');
+const loadInput = document.getElementById('loadInput');
+
+// Save Button Click Event
+saveButton.addEventListener('click', () => {
+  const exportData = JSON.stringify(grid);
+  const blob = new Blob([exportData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'cellular_automaton_state.json';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// Load Input Change Event
+loadInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const importedData = JSON.parse(e.target.result);
+      if (Array.isArray(importedData) && importedData.length === rows && importedData[0].length === cols) {
+        grid = importedData;
+      } else {
+        alert('Invalid data format. Please select a valid saved state.');
+      }
+    };
+    reader.readAsText(file);
+  }
+});
+
 
     // Create the game grid
     let grid = [];
